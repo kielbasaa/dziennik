@@ -61,7 +61,8 @@ values (1, 'Leon', 'Miklaszewski', '2000-12-11'),
 (5, 'Karol', 'Motylanoga', '2000-05-17'),
 (6, 'Grzegorz', 'Skrzyd³owski', '2001-01-30'),
 (7, 'Marek', 'Kietrzañski', '2000-01-01'),
-(8, 'Józef', 'Dynia', '2000-09-11')
+(8, 'Józef', 'Dynia', '2000-09-11'),
+(9, 'Benedykt', 'Gut', '2000-08-26')
 
 insert into nauczyciele(Id_nauczyciela, Imiê, Nazwisko)
 values (1, 'Martyna', 'Mieczyk'),
