@@ -46,11 +46,11 @@ create table oceny
 
 create table obecnoœci
 (
-Id_obecnoœci int not null primary key,
-Id_ucznia int not null foreign key references uczniowie(Id_ucznia),
-Id_dnia int not null foreign key references dni(Id_dnia),
-Wartoœæ int not null
-constraint chk_wartoœæ check (wartoœæ = 1 or wartoœæ = 0)
+	Id_obecnoœci int not null primary key,
+	Id_ucznia int not null foreign key references uczniowie(Id_ucznia),
+	Id_dnia int not null foreign key references dni(Id_dnia),
+	Wartoœæ int not null
+	constraint chk_wartoœæ check (wartoœæ = 1 or wartoœæ = 0)
 )
 
 insert into uczniowie (Id_ucznia, Imiê, Nazwisko, Data_urodzenia)
