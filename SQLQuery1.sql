@@ -131,16 +131,55 @@ values (1, 1, 1, 1),
 -- ZAPYTANIA
 
 --1. ŒREDNIA OCEN
+go
+create view œrednia_ocen
+as
 select nazwisko, avg(cast (ocena as float)) as œrednia
 from uczniowie u full join oceny o
 on u.Id_ucznia=o.Id_ucznia
 group by Nazwisko
 --2. Frekwencja
+go
+create view frekwencja
+as
 select nazwisko, sum(cast(wartoœæ as float))/count(wartoœæ) * 100 as frekwencja_procent 
 from uczniowie u full join obecnoœci o
 on u.Id_ucznia=o.Id_ucznia
 group by Nazwisko
 --3. Obecnoœci
+go
+create view obecnoœci_ucznia
+as
 Select nazwisko, wartoœæ
 from uczniowie u full join obecnoœci o
 on u.id_ucznia= o.Id_ucznia
+go
+create view nauczyciele_przedmioty
+as 
+select przedmiot,nazwisko
+from przedmioty p inner join nauczyciele n
+on p.id_nauczyciela = n.id_nauczyciela
+
+go
+
+create procedure dodaj_przedmiot
+	@nazwa_przedmiotu nvarchar(50),
+	@nazwisko_nauczyciela nvarchar(50)
+As
+begin
+	declare @id_dodawanego_nauczyciela as int
+
+	set @id_dodawanego_nauczyciela = 
+		(select id_nauczyciela from nauczyciele
+		where nazwisko = @nazwisko_nauczyciela 
+		)
+
+	declare @id_dodawanego_przedmiotu as int
+
+	set @id_dodawanego_przedmiotu =
+		(select max(id_przedmiotu) + 1 from przedmioty
+		)
+	
+	insert into przedmioty (Id_przedmiotu, przedmiot, Id_nauczyciela)
+	values (@id_dodawanego_przedmiotu, @nazwa_przedmiotu, @id_dodawanego_nauczyciela)
+end
