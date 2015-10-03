@@ -183,3 +183,36 @@ begin
 	insert into przedmioty (Id_przedmiotu, przedmiot, Id_nauczyciela)
 	values (@id_dodawanego_przedmiotu, @nazwa_przedmiotu, @id_dodawanego_nauczyciela)
 end
+
+CREATE procedure obni¿_ocenê
+@id_oceny int
+as
+begin
+	if (select ocena from oceny where @id_oceny = id_oceny) > 1
+	begin
+	 update oceny
+	 set ocena = ocena - 1
+	 where @id_oceny = id_oceny
+	end
+end
+
+execute obni¿_ocenê 6
+use dziennik
+create procedure obni¿_wszystkim
+as
+begin
+	declare @iloœæ as int
+		set @iloœæ =
+		(select count(id_oceny)+1 from oceny)
+	declare @przejœcie as int = 1
+		while @przejœcie < @iloœæ
+		begin
+			execute obni¿_ocenê @przejœcie 		
+			set @przejœcie = @przejœcie + 1
+		end
+end
+
+execute obni¿_wszystkim
+select *
+from uczniowie u full join oceny o
+on u.Id_ucznia = o.Id_ucznia
